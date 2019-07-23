@@ -1,0 +1,20 @@
+<!--头部-->
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>我的音乐</title>
+  <!--资源-->
+  {{include './head.html'}}
+</head>
+
+<body>
+<!--顶部-->
+{{include './header.html'}}
+
+{{block 'content'}}
+默认内容
+{{/block}}
+
+<!--底部-->
+{{include './footer.html'}}
