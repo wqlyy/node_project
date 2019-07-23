@@ -11,6 +11,7 @@ const userRouter = require('./router/user')
 const musicRouter = require('./router/music')
 const rewrite = require('./middleware/rewrite')
 const error = require('./middleware/error')
+const config = require('./config')
 
 let app = new Koa()
 app.keys = ['a','b','c']//用于session签名
@@ -37,7 +38,9 @@ render(app, {
 
 //处理405 方法不匹配 501，方法未实现
 app.use(error())
-
+//重写静态文件路径
+app.use(rewrite(config.rewriteRoute))
+app.use(koaStatic(path.resolve('./public')))
 
 //中间件
 app.use(session({store},app))
@@ -50,9 +53,6 @@ app.use(userRouter.routes())
 app.use(musicRouter.routes())
 
 
-//重写静态文件路径
-app.use(rewrite())
-app.use(koaStatic(path.resolve('./public')))
 
 app.listen(8888, () => {
   console.log('服务器监听8888端口')
