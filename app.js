@@ -4,6 +4,7 @@ const Koa = require('koa')
 const render = require('koa-art-template')
 const path = require('path')
 const koaStatic = require('koa-static')
+const bodyParser = require('koa-bodyparser')
 const userRouter = require('./router/user')
 const musicRouter = require('./router/music')
 
@@ -23,11 +24,18 @@ render(app, {
 
 
 //中间件
+app.use(bodyParser())
 app.use(userRouter.routes())
 app.use(musicRouter.routes())
 
 //处理405 方法不匹配 501，方法未实现
-
+app.use(async (ctx,next)=>{
+  try{
+    await next()
+  } catch (e){
+    console.log(e);
+  }
+})
 //重写静态文件路径
 app.use(async (ctx, next) => {
   if (ctx.url.startsWith('/public')) {
