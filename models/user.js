@@ -9,5 +9,8 @@ module.exports = {
   },
   async registerUser(...userInfo){
     return await db.q('insert into users (username,password,email) values (?,?,?)',userInfo)
+  },
+  async findUserDataByUserName(username){
+    return await db.q('select * from users where username = ?',[username])
   }
 }

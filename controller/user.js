@@ -38,6 +38,19 @@ module.exports={
     }
   },
   async doLogin(ctx,next){
-
+    let {username,password} = ctx.request.body
+    let users = await userModel.findUserDataByUserName(username)
+    if(!users.length){
+      ctx.body = {code:'002',msg:'用户名或者密码不存在'}
+      return
+    }
+    let user = users[0];
+    if(user.password === password){
+      ctx.body={code:'001',msg:'登录成功'}
+      //session方便后期
+      ctx.session.user = user
+      return
+    }
+    ctx.body = {code:'002',msg:'用户名或者密码不存在'}
   }
 }
