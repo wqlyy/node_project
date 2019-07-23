@@ -4,10 +4,7 @@ const UserController = require('../controller/user')
 
 let router = new Router()
 
-router.get('/', async ctx => {
-  ctx.render('index')
-})
-  .get('/user/register', UserController.showRegister)
+router.get('/user/register', UserController.showRegister)
   .get('/user/login', UserController.showLogin)
   .post('/user/check-username',UserController.checkUserName)
   .post('/user/do-register',UserController.doRegister)
