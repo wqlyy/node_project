@@ -6,6 +6,7 @@ const path = require('path')
 const koaStatic = require('koa-static')
 const bodyParser = require('koa-bodyparser')
 const session = require('koa-session')
+const formidable = require('koa-formidable')
 const userRouter = require('./router/user')
 const musicRouter = require('./router/music')
 
@@ -45,7 +46,11 @@ app.use(async (ctx,next)=>{
 
 //中间件
 app.use(session({store},app))
-app.use(bodyParser())
+// app.use(bodyParser())
+app.use(formidable({
+  uploadDir:path.resolve('./public/files'),
+  keepExtensions:true
+}))
 app.use(userRouter.routes())
 app.use(musicRouter.routes())
 
